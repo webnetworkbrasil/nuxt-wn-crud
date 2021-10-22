@@ -8,10 +8,6 @@
   },
   "author": "Web Network",
   "license": "ISC",
-  "devDependencies": {
-    "@nuxtjs/style-resources": "^1.2.1",
-    "fibers": "^5.0.0",
-    "node-sass": "^6.0.1",
-    "sass-loader": "^10.2.0"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
