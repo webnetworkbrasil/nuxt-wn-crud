@@ -7,10 +7,10 @@ for (const name in components) {
     Vue.component(name, {
         extends: components[name],
         props: {
-            _customCounterOptions: {
+            config: {
                 type: Object,
                 default: () => ({ ...options })
-            }
+            },
         }
     })
 }

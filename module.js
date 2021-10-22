@@ -3,8 +3,10 @@ const { readdirSync } = require('fs')
 
 export default function (moduleOptions) {
   const options = {
-    ...moduleOptions
+    ...moduleOptions,
+    ...this.options.wnCrud
   }
+
   if (!options.namespace) options.namespace = 'WnCrud'
   const { namespace } = options
 
