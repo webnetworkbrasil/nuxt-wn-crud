@@ -6,7 +6,18 @@ export default function (moduleOptions) {
     ...moduleOptions
   }
   if (!options.namespace) options.namespace = 'WnCrud'
+  const { namespace } = options
 
+  const pluginsToSync = [
+    'components/index.js'
+  ]
+  for (const pathString of pluginsToSync) {
+    this.addPlugin({
+      src: resolve(__dirname, pathString),
+      fileName: join(namespace, pathString),
+      options
+    })
+  }
   const foldersToSync = ['components/lib']
   for (const pathString of foldersToSync) {
     const path = resolve(__dirname, pathString)
