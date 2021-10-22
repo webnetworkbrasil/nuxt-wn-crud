@@ -1,0 +1,11 @@
+{
+  "name": "wn-crud",
+  "version": "1.0.0",
+  "description": "Crud basic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Web Network",
+  "license": "ISC"
+}
