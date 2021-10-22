@@ -1,5 +1,5 @@
 {
-  "name": "wn-crud",
+  "name": "nuxt-wn-crud",
   "version": "1.0.0",
   "description": "Crud basic",
   "main": "module.js",
