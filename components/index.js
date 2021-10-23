@@ -7,7 +7,7 @@ for (const name in components) {
     Vue.component(name, {
         extends: components[name],
         props: {
-            config: {
+            $wnCrud: {
                 type: Object,
                 default: () => ({ ...options })
             },
