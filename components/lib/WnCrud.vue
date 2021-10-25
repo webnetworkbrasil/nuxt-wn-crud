@@ -79,7 +79,7 @@
             <tr v-if="dataList.length == 0">
               <td :colspan="config.list.columnsPropriety.length + (haveActions ? 1 : 0)">
                 <div style="margin: 20px auto; text-align:center;">
-                  <img data-not-lazy height="120px" :src="defaultEmptyIMG" style="margin-bottom:20px;" />
+                  <div><img data-not-lazy height="120px" width="120px" :src="defaultEmptyIMG" style="margin-bottom:20px;" /></div>
                   <div>{{config.list.texts.empty}}</div>
                 </div>
               </td>
@@ -380,6 +380,54 @@ export default {
         }
       },
     };
+  },
+  created(){
+    this.config.formID = this.config.formID ? this.config.formID : "id";
+    this.config.create.modal = this.config.create.modal ? this.config.create.modal : {
+      size: "md",
+      askToClose: false,
+    };
+    this.config.create.size = this.config.create.size ? this.config.create.size : "md";
+    this.config.create.texts = this.config.create.texts ? this.config.create.texts : {
+      create: "Create new",
+      close: "Close",
+      save: "Save"
+    };
+    this.config.create.texts.create = this.config.create.texts.create ? this.config.create.texts.create : "Create new";
+    this.config.create.texts.close = this.config.create.texts.close ? this.config.create.texts.close : "Close";
+    this.config.create.texts.save = this.config.create.texts.save ? this.config.create.texts.save : "Save";
+    this.config.create.buttons = this.config.create.buttons ? this.config.create.buttons : {
+      create: true,
+      save: true,
+      close: true,
+    };
+    this.config.create.buttons.create = typeof this.config.create.buttons.create != "undefined" ? this.config.create.buttons.create : true;
+    this.config.create.buttons.save = typeof this.config.create.buttons.save  != "undefined" ? this.config.create.buttons.save : true;
+    this.config.create.buttons.close = typeof this.config.create.buttons.close != "undefined" ? this.config.create.buttons.close : true;
+    this.config.list.perPage = this.config.list.perPage ? this.config.list.perPage : 10;
+    this.config.list.search = this.config.list.search ? this.config.list.search : 10;
+    this.config.list.texts = this.config.list.texts? this.config.list.texts : {
+      search: "Search the list",
+      empty: "There's nothing here",
+      actions: "Actions",
+      delete: "Delete",
+      view: "View",
+      edit: "Edit"
+    }
+    this.config.list.texts.search = this.config.list.texts.search ? this.config.list.texts.search : "Search the list";
+    this.config.list.texts.empty = this.config.list.texts.empty ? this.config.list.texts.empty : "There's nothing here";
+    this.config.list.texts.actions = this.config.list.texts.actions ? this.config.list.texts.actions : "Actions";
+    this.config.list.texts.delete = this.config.list.texts.delete ? this.config.list.texts.delete : "Delete";
+    this.config.list.texts.view = this.config.list.texts.view ? this.config.list.texts.view : "View";
+    this.config.list.texts.edit = this.config.list.texts.edit ? this.config.list.texts.edit : "Edit";
+    this.config.list.buttons = this.config.list.buttons ? this.config.list.buttons : {
+      delete: true,
+      edit: true,
+      view: true,
+    };
+    this.config.list.buttons.delete = typeof this.config.list.buttons.delete != "undefined" ? this.config.list.buttons.delete : true;
+    this.config.list.buttons.edit = typeof this.config.list.buttons.edit != "undefined" ? this.config.list.buttons.edit : true;
+    this.config.list.buttons.view = typeof this.config.list.buttons.view != "undefined" ? this.config.list.buttons.view : false;
   },
   async mounted() {
     this.haveActions = (this.config.list.buttons.delete || this.config.list.buttons.edit || this.config.list.buttons.view) ? true : false;
