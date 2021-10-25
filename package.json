@@ -1,13 +1,41 @@
 {
-  "name": "nuxt-wn-crud",
-  "version": "1.0.0",
+  "_from": "github:webnetworkbrasil/nuxt-wn-crud",
+  "_id": "nuxt-wn-crud@1.0.0",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/nuxt-wn-crud",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "webnetworkbrasil/nuxt-wn-crud",
+    "rawSpec": "webnetworkbrasil/nuxt-wn-crud",
+    "saveSpec": "github:webnetworkbrasil/nuxt-wn-crud",
+    "fetchSpec": null,
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "github:webnetworkbrasil/nuxt-wn-crud#57b1c4e6c8c28eb63e8b3c50dc2ac2276be08a99",
+  "_spec": "webnetworkbrasil/nuxt-wn-crud",
+  "_where": "C:\\Users\\PC\\Desktop\\teste",
+  "author": {
+    "name": "Web Network"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "axios": "^0.23.0",
+    "vue-sweetalert2": "^5.0.2"
+  },
+  "deprecated": false,
   "description": "Crud basic",
+  "devDependencies": {},
+  "license": "ISC",
   "main": "module.js",
+  "name": "nuxt-wn-crud",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Web Network",
-  "license": "ISC",
-  "devDependencies": {},
-  "dependencies": {}
+  "version": "1.0.0"
 }

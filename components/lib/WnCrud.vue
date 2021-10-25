@@ -15,10 +15,13 @@
           <div class="wn-modal-close"><button class="close-modal wn-btn wn-btn-transparent" @click="closeModal">X</button></div>
         </section>
         <section class="wn-modal-body">
-          <slot v-if="!this.$slots.create && !this.$slots.edit && !this.$slots.view"></slot>
-          <slot v-if="typeModal == 'create'" name="create"></slot>
-          <slot v-if="typeModal == 'edit'" name="edit"></slot>
-          <slot v-if="typeModal == 'view'" name="view"></slot>
+          <div v-if="loadingForm" style="margin: 20px auto; text-align:center;">
+            <img :src="defaultLoadingIMG" alt="loading..." />
+          </div>
+          <slot v-if="!loadingForm && !this.$slots.create && !this.$slots.edit && !this.$slots.view"></slot>
+          <slot v-if="!loadingForm && typeModal == 'create'" name="create"></slot>
+          <slot v-if="!loadingForm && typeModal == 'edit'" name="edit"></slot>
+          <slot v-if="!loadingForm && typeModal == 'view'" name="view"></slot>
         </section>
         <section class="wn-modal-footer" v-if="this.$slots.footerDefault || this.$slots.footerCreate || this.$slots.footerEdit || this.$slots.footerView || config.create.buttons.close || config.create.buttons.save">
           <slot v-if="!this.$slots.footerCreate && !this.$slots.footerEdit && !this.$slots.footerView" name="footerDefault"></slot>
@@ -67,7 +70,7 @@
               <td v-for="(colum, idc) in config.list.columnsPropriety" :key="idc" v-html="verifyContent(data, colum)"></td>
               <td v-if="haveActions" class="wn-right">
                 <div>
-                  <button class="wn-btn wn-btn-error" v-if="config.list.buttons.delete" v-html="config.list.texts.delete"></button>
+                  <button @click="onDelete(data[config.formID], data)" class="wn-btn wn-btn-error" v-if="config.list.buttons.delete" v-html="config.list.texts.delete"></button>
                   <button @click="openModal('view', data[config.formID])" class="wn-btn wn-btn-view" v-if="config.list.buttons.view" v-html="config.list.texts.view"></button>
                   <button @click="openModal('edit', data[config.formID])" class="wn-btn wn-btn-alert" v-if="config.list.buttons.edit" v-html="config.list.texts.edit"></button>
                 </div>
@@ -120,7 +123,7 @@ section#wn-crud section.wn-modal {
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 9999;
+  z-index: 9;
   padding: 20px 0;
   overflow-y: auto;
 }
@@ -329,11 +332,12 @@ export default {
   props: ["config"],
   data() {
     return {
+      copyForm: null,
       typeModal: "create",
       statusModal: false,
       minHeightTable: false,
       loadingList: true,
-      loadingSave: false,
+      loadingForm: false,
       pageList: 1,
       search: "",
       lastSearch: "",
@@ -359,6 +363,21 @@ export default {
             alert: { text: "#222", background: "orange" },
           },
         },
+        texts: {
+          "Are you sure about this?": "Você tem certeza disso?",
+          "Do you want to close without saving changes?": "Você deseja fechar sem salvar as alterações?",
+          "Cancel": "Cancelar",
+          "Yes, close": "Sim, fechar",
+          'OK!': 'OK!',
+          'Record saved successfully!': 'Record saved successfully!',
+          "Oops...": "Oops...",
+          'Error!': 'Error!',
+          'Contact the developer!': 'Contact the developer!',
+          "You won't be able to revert this!": "Você não poderá reverter isso!",
+          "Deleted!": "Deletado!",
+          'The record has been successfully deleted.': 'O registro foi apagado com sucesso.',
+          'Yes, delete it!': 'Sim, apague!'
+        }
       },
     };
   },
@@ -367,7 +386,29 @@ export default {
     await this.loadList();
   },
   methods: {
-    save(){
+    async onLoad(id) {
+      this.loadingForm = true;
+      await axios
+      .get(`${this.wnCrud.baseApi}${this.config.route}/${encodeURI(id)}`)
+      .then((res) => {
+        let formClear = Object.entries(this.config.form);
+        for(let i = 0; i < formClear.length; i++){
+          this.config.form[formClear[i][0]] = res.data[formClear[i][0]];
+        }
+      })
+      .catch((err) => {
+        this.statusModal = false;
+        this.$swal({
+          icon: 'error',
+          title: this.textsModule('Oops...'),
+          text: this.textsModule('Error!'),
+          footer: this.textsModule('Contact the developer!'),
+        })
+      })
+      this.loadingForm = false;
+    },
+    async save(){
+      this.loadingForm = true;
       var formData = new FormData();
       var form = Object.assign({}, this.config.form);
       var keys = Object.keys(form);
@@ -388,33 +429,127 @@ export default {
           formData.append(keys[i], form[keys[i]]);
         }
       }
-      //save form
+      await axios[this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? 'post' : 'patch'](this.wnCrud.baseApi+this.config.route+(this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? '' : '/'+this.config.form[this.config.formID]), formData)
+      .then((res) => {
+        this.loadList(0);
+        this.closeModal(null, true);
+        this.$swal({
+          icon: 'success',
+          title: this.textsModule('OK!'),
+          text: this.textsModule('Record saved successfully!'),
+          showConfirmButton: false,
+          timer: 1000,
+        })
+      })
+      .catch((err) => {
+        this.onClearErrors()
+        if (typeof err.response !== 'undefined' && err.response.data.message.length > 0) {
+          let messages = err.response.data.message
+          for (let i = 0; i < messages.length; i++) {
+            for (var index in messages[i].constraints) {
+              var msg = messages[i].constraints[index]
+              this.config.formError[messages[i].property] += msg.charAt(0).toUpperCase() + msg.slice(1) + '. '
+            }
+          }
+        }
+      })
+      this.loadingForm = false;
     },
-    openModal(type, id = 0){
+    async openModal(type, id = 0){
       this.onClearValues();
       switch(type){
         case "create": 
           break;
         case "edit": 
+          this.statusModal = true;
+          await this.onLoad(id);
           break;
         case "view": 
           break;
       }
+      this.copyForm = Object.assign({}, this.config.form);
       this.typeModal = type;
       this.statusModal = true;
     },
-    closeModal(event){
-      if(event.target.classList.contains('close-modal')){
-        if(!this.config.create.modal.askToClose){
+    textsModule(key){
+      if(this.wnCrud.texts[key]){
+        return this.wnCrud.texts[key];
+      }else{
+        return key
+      }
+    },
+    closeModal(event, ignore = false){
+      if(ignore || event.target.classList.contains('close-modal')){
+        if(ignore || !this.config.create.modal.askToClose){
           this.statusModal = false;
         }else{
-          console.log("FUNÇÃO DE PERGUNTAR SE DESEJA REALMENTE FECHAR")
+          if(!ignore && JSON.stringify(this.copyForm) != JSON.stringify(this.config.form)){
+            this.$swal({
+              title: this.textsModule("Are you sure about this?"),
+              text: this.textsModule("Do you want to close without saving changes?"),
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: this.wnCrud.colors.buttons.alert.background,
+              cancelButtonColor: this.wnCrud.colors.buttons.error.background,
+              cancelButtonText: this.textsModule("Cancel"),
+              confirmButtonText: this.textsModule("Yes, close"),
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                this.statusModal = false;
+              }
+            });
+          }else{
+            this.statusModal = false;
+          }
         }
       }
     },
+    async onDelete(id, obj) {
+      await this.$swal({
+        title: this.config.delete.headerDetails ? this.config.delete.headerDetails[1](obj[this.config.delete.headerDetails[0]]) : 'Delete ?',
+        text: this.textsModule("You won't be able to revert this!"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: this.wnCrud.colors.buttons.alert.background,
+        cancelButtonColor: this.wnCrud.colors.buttons.error.background,
+        cancelButtonText: this.textsModule('Cancel'),
+        confirmButtonText: this.textsModule('Yes, delete it!'),
+      }).then(async (result) => {
+        this.loadingList = true;
+        if (result.isConfirmed) {
+          await axios
+            .delete(`${this.wnCrud.baseApi}${this.config.route}/${id}`)
+            .then((res) => {
+                this.$swal({
+                  icon: 'success',
+                  title: this.textsModule('Deleted!'),
+                  text: this.textsModule('The record has been successfully deleted.'),
+                  showConfirmButton: false,
+                  timer: 1000,
+                })
+              this.count = this.count - 1;
+              this.totalPages = Math.ceil(this.count / this.config.list.perPage);
+              if(this.pageList > this.totalPages){
+                this.pageList = this.totalPages;
+              }
+              this.loadList(0);
+            })
+            .catch((err) => {
+              console.log(err);
+              this.$swal({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Ocorreu um erro!',
+                  footer: 'Contact the developer!',
+                })
+            })
+        }
+        this.loadingList = false;
+      });
+    },
     onClearErrors() {
-      for (var index in this.errors) {
-        this.errors[index] = ''
+      for (var index in this.config.formError) {
+        this.config.formError[index] = ''
       }
     },
     onClearValues() {
