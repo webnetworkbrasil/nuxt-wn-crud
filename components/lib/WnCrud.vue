@@ -1,8 +1,37 @@
 <template>
   <section
     id="wn-crud"
-    :style="`--view-bg: ${wnCrud.colors.buttons.view.background};--view-text: ${wnCrud.colors.buttons.view.text};--alert-bg: ${wnCrud.colors.buttons.alert.background};--alert-text: ${wnCrud.colors.buttons.alert.text};--error-bg: ${wnCrud.colors.buttons.error.background};--error-text: ${wnCrud.colors.buttons.error.text};--ok-bg: ${wnCrud.colors.buttons.ok.background};--ok-text: ${wnCrud.colors.buttons.ok.text};--primary: ${wnCrud.colors.primary};--secondary: ${wnCrud.colors.secondary};--text: ${wnCrud.colors.text};`"
-  >
+    :style="`--view-bg: ${wnCrud.colors.buttons.view.background};--view-text: ${wnCrud.colors.buttons.view.text};--alert-bg: ${wnCrud.colors.buttons.alert.background};--alert-text: ${wnCrud.colors.buttons.alert.text};--error-bg: ${wnCrud.colors.buttons.error.background};--error-text: ${wnCrud.colors.buttons.error.text};--ok-bg: ${wnCrud.colors.buttons.ok.background};--ok-text: ${wnCrud.colors.buttons.ok.text};--primary: ${wnCrud.colors.primary};--secondary: ${wnCrud.colors.secondary};--text: ${wnCrud.colors.text};`">
+    <section class="wn-modal" v-if="statusModal">
+      <div class="container close-modal">
+      <section v-click-outside="closeModal" :class="`wn-modal-box`+(config.create.modal.size ? ' wn-modal-'+config.create.modal.size : '')">
+        <section class="wn-modal-header">
+          <div class="wn-modal-title">
+            <slot v-if="!this.$slots.headerCreate && !this.$slots.headerEdit && !this.$slots.headerView" name="headerDefault"></slot>
+            <slot v-if="typeModal == 'create'" name="headerCreate"></slot>
+            <slot v-if="typeModal == 'edit'" name="headerEdit"></slot>
+            <slot v-if="typeModal == 'view'" name="headerView"></slot>
+          </div>
+          <div class="wn-modal-close"><button class="close-modal wn-btn wn-btn-transparent" @click="closeModal">X</button></div>
+        </section>
+        <section class="wn-modal-body">
+          <slot v-if="!this.$slots.create && !this.$slots.edit && !this.$slots.view"></slot>
+          <slot v-if="typeModal == 'create'" name="create"></slot>
+          <slot v-if="typeModal == 'edit'" name="edit"></slot>
+          <slot v-if="typeModal == 'view'" name="view"></slot>
+        </section>
+        <section class="wn-modal-footer" v-if="this.$slots.footerDefault || this.$slots.footerCreate || this.$slots.footerEdit || this.$slots.footerView || config.create.buttons.close || config.create.buttons.save">
+          <slot v-if="!this.$slots.footerCreate && !this.$slots.footerEdit && !this.$slots.footerView" name="footerDefault"></slot>
+          <slot v-if="typeModal == 'create'" name="footerCreate"></slot>
+          <slot v-if="typeModal == 'edit'" name="footerEdit"></slot>
+          <slot v-if="typeModal == 'view'" name="footerView"></slot>
+          <button v-if="config.create.buttons.close" class="close-modal wn-btn wn-btn-error" @click="closeModal">{{config.create.texts.close}}</button>
+          <button @click="save" v-if="config.create.buttons.save" class="wn-btn wn-btn-ok">{{config.create.texts.save}}</button>
+        </section>
+      </section>
+      </div>
+    </section>
+  
     <section class="wn-box">
       <section class="wn-header">
         <div class="wn-info">
@@ -10,10 +39,11 @@
           <div class="wn-description">{{ config.description }}</div>
         </div>
         <div class="wn-action">
-          <button v-if="config.buttons.create" class="wn-btn wn-btn-ok">{{ config.texts.create }}</button>
+          <button @click="openModal('create')" v-if="config.create.buttons.create" class="wn-btn wn-btn-ok">{{ config.create.texts.create }}</button>
         </div>
       </section>
       <section class="wn-list">
+        <section v-if="config.list.search" class="wn-search"><input type="text" @keyup="searchData" v-model="search" id="wn-search-text" :placeholder="config.list.texts.search" /></section>
         <table>
           <thead>
             <tr class="wn-list-loading" v-if="this.loadingList" :style="this.minHeightTable ? `height: ${this.minHeightTable}px` : ''">
@@ -27,7 +57,7 @@
               <th v-for="(wnIH, index) in config.list.header" :key="index">
                 {{ wnIH }}
               </th>
-              <th v-if="haveActions">
+              <th v-if="haveActions" class="wn-right">
                 {{ config.list.texts.actions }}
               </th>
             </tr>
@@ -35,10 +65,12 @@
           <tbody v-if="!this.loadingList">
             <tr v-for="(data, index) in dataList" :key="index">
               <td v-for="(colum, idc) in config.list.columnsPropriety" :key="idc" v-html="verifyContent(data, colum)"></td>
-              <td style="width:92px" v-if="haveActions">
-                <button class="wn-btn wn-btn-error" v-if="config.list.buttons.delete" v-html="config.list.texts.delete"></button>
-                <button class="wn-btn wn-btn-view" v-if="config.list.buttons.view" v-html="config.list.texts.view"></button>
-                <button class="wn-btn wn-btn-alert" v-if="config.list.buttons.edit" v-html="config.list.texts.edit"></button>
+              <td v-if="haveActions" class="wn-right">
+                <div>
+                  <button class="wn-btn wn-btn-error" v-if="config.list.buttons.delete" v-html="config.list.texts.delete"></button>
+                  <button @click="openModal('view', data[config.formID])" class="wn-btn wn-btn-view" v-if="config.list.buttons.view" v-html="config.list.texts.view"></button>
+                  <button @click="openModal('edit', data[config.formID])" class="wn-btn wn-btn-alert" v-if="config.list.buttons.edit" v-html="config.list.texts.edit"></button>
+                </div>
               </td>
             </tr>
             <tr v-if="dataList.length == 0">
@@ -56,15 +88,13 @@
         <ul>
           <li @click="loadList(1 == pageList ? null : 1)" :class="`wn-btn ${pageList == 1 ? 'disabled' : ''}`" v-html="`<<`"></li>
           <li @click="loadList(pageList - 1 > 0 ? pageList - 1 : null)" :class="`wn-btn ${pageList - 1 < 1 ? 'disabled' : ''}`" v-html="`<`"></li>
-
           <li @click="loadList(pag)" :class="`wn-btn ${pag == pageList ? 'active' : ''}`" v-for="(pag, index) in (totalPages < 5 ? totalPages : viewPages)" :key="index">{{pag}}</li>
-
           <li @click="loadList(pageList + 1 <= totalPages ? pageList + 1 : null)" :class="`wn-btn ${pageList + 1 > totalPages ? 'disabled' : ''}`" v-html="`>`"></li>
           <li @click="loadList(totalPages == pageList ? null : totalPages)" :class="`wn-btn ${totalPages == pageList ? 'disabled' : ''}`" v-html="`>>`"></li>
         </ul>
-        <div class="wn-pagination-page">{{pageList}} - {{totalPages}}</div>
       </section>
     </section>
+
   </section>
 </template>
 
@@ -75,6 +105,87 @@ section#wn-crud {
 section#wn-crud * {
   font-family: "Roboto", sans-serif;
   color: var(--text);
+}
+section#wn-crud div.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+}
+section#wn-crud section.wn-modal {
+  border: 1px solid rgba(0,0,0,0.1);
+  background-color: rgba(255,255,255,.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9999;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+section#wn-crud section.wn-modal section.wn-modal-box {
+  width: 100%;
+  border:1px solid rgba(0,0,0,0.1);
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+section#wn-crud section.wn-modal  section.wn-modal-box.wn-modal-full {
+  max-width: auto;
+  border:0;
+  border-radius: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+}
+section#wn-crud section.wn-modal  section.wn-modal-box.wn-modal-full section.wn-modal-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+section#wn-crud section.wn-modal  section.wn-modal-box.wn-modal-full section.wn-modal-body {
+  overflow-y: auto;
+  height: calc(100% - 169px);
+}
+section#wn-crud section.wn-modal  section.wn-modal-box.wn-modal-lg {
+  max-width: 1000px;
+}
+section#wn-crud section.wn-modal  section.wn-modal-box.wn-modal-md {
+  max-width: 600px;
+}
+section#wn-crud section.wn-modal  section.wn-modal-box.wn-modal-sm {
+  max-width: 400px;
+}
+section#wn-crud section.wn-modal section.wn-modal-box section.wn-modal-header {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+section#wn-crud section.wn-modal section.wn-modal-box section.wn-modal-header div.wn-modal-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+section#wn-crud section.wn-modal section.wn-modal-box section.wn-modal-header div.wn-modal-close button {
+  font-size: 20px;
+  font-weight: bold;
+}
+section#wn-crud section.wn-modal section.wn-modal-box section.wn-modal-body {
+  padding: 20px;
+}
+section#wn-crud section.wn-modal section.wn-modal-box section.wn-modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 section#wn-crud .wn-btn {
   border: 0px;
@@ -103,6 +214,10 @@ section#wn-crud .wn-btn.wn-btn-alert {
   background: var(--alert-bg);
   color: var(--alert-text);
 }
+section#wn-crud .wn-btn.wn-btn-transparent {
+  background: transparent;
+  color: var(--text);
+}
 section#wn-crud section.wn-box section.wn-header {
   display: flex;
   justify-content: space-between;
@@ -127,6 +242,19 @@ section#wn-crud section.wn-box section.wn-list {
   display: grid;
   text-align: left;
 }
+section#wn-crud section.wn-box section.wn-list section.wn-search {
+  display: flex;
+  margin-bottom: 20px;
+}
+section#wn-crud section.wn-box section.wn-list section.wn-search input {
+  width: 100%;
+  border:1px solid rgba(0,0,0,0.1);
+  color:var(--text);
+  outline: none;
+  height: 32px;
+  border-radius: 5px;
+  padding: 0 10px;
+}
 section#wn-crud section.wn-box section.wn-list table {
   border-collapse: collapse;
 }
@@ -143,9 +271,13 @@ section#wn-crud section.wn-box section.wn-list table tr:nth-child(1) th {
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   padding: 0 10px 10px;
 }
-section#wn-crud section.wn-box section.wn-list table tr td:nth-last-child(1), section#wn-crud section.wn-box section.wn-list table tr th:nth-last-child(1) {
+section#wn-crud section.wn-box section.wn-list table tr .wn-right {
   text-align: right;
-  width: 140px;
+}
+section#wn-crud section.wn-box section.wn-list table tr td:nth-last-child(1) div {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
 }
 section#wn-crud section.wn-box section.wn-list table tr:nth-child(even) {
   background-color: rgba(0, 0, 0, 0.05);
@@ -197,6 +329,8 @@ export default {
   props: ["config"],
   data() {
     return {
+      typeModal: "create",
+      statusModal: false,
       minHeightTable: false,
       loadingList: true,
       loadingSave: false,
@@ -233,11 +367,84 @@ export default {
     await this.loadList();
   },
   methods: {
+    save(){
+      var formData = new FormData();
+      var form = Object.assign({}, this.config.form);
+      var keys = Object.keys(form);
+      for(var i = 0; i < keys.length; i++){
+        if(form[keys[i]] && form[keys[i]].constructor.name == 'File'){
+          formData.append(keys[i], form[keys[i]], form[keys[i]].name);
+        }else if(form[keys[i]] && form[keys[i]].constructor.name == 'FileList') {
+          var filesForm = form[keys[i]];
+          for(var x = 0; x < filesForm.length; x++){
+            formData.append(keys[i], filesForm[x], filesForm[x].name);
+          }
+        }else if(form[keys[i]] && form[keys[i]].constructor.name == 'Array') {
+          var arrayForm = form[keys[i]];
+          for(var x = 0; x < arrayForm.length; x++){
+            formData.append(keys[i]+"[]", arrayForm[x]);
+          }
+        }else {
+          formData.append(keys[i], form[keys[i]]);
+        }
+      }
+      //save form
+    },
+    openModal(type, id = 0){
+      this.onClearValues();
+      switch(type){
+        case "create": 
+          break;
+        case "edit": 
+          break;
+        case "view": 
+          break;
+      }
+      this.typeModal = type;
+      this.statusModal = true;
+    },
+    closeModal(event){
+      if(event.target.classList.contains('close-modal')){
+        if(!this.config.create.modal.askToClose){
+          this.statusModal = false;
+        }else{
+          console.log("FUNÇÃO DE PERGUNTAR SE DESEJA REALMENTE FECHAR")
+        }
+      }
+    },
+    onClearErrors() {
+      for (var index in this.errors) {
+        this.errors[index] = ''
+      }
+    },
+    onClearValues() {
+      let formClear = Object.entries(this.config.form);
+      for(let i = 0; i < formClear.length; i++){
+        this.config.form[formClear[i][0]] = this.config.formClear[formClear[i][0]];
+      }
+      this.onClearErrors();
+    },
     verifyContent(data, key) {
       if(Array.isArray(key)){
         return key[1](data[key[0]]);
       }
       return data[key];
+    },
+    async searchData(){
+      if(this.search != this.lastSearch && this.searchDelay == 0){
+        this.loadingList = true;
+        this.searchDelay = 1;
+        let thisAT = this;
+        let timeC = setInterval(function () {
+          if (thisAT.lastSearch == thisAT.search) {
+              thisAT.searchDelay = 0;
+              thisAT.loadList();
+              clearInterval(timeC);
+          } else {
+              thisAT.lastSearch = thisAT.search;
+          }
+        }, 800);
+      }
     },
     updatePagination(){
       this.viewPages = [];

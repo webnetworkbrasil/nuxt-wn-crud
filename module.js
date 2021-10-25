@@ -11,7 +11,8 @@ export default function (moduleOptions) {
   const { namespace } = options
 
   const pluginsToSync = [
-    'components/index.js'
+    'components/index.js',
+    'plugins/index.js',
   ]
   for (const pathString of pluginsToSync) {
     this.addPlugin({
