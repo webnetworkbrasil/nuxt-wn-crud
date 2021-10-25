@@ -78,8 +78,8 @@
             </tr>
             <tr v-if="dataList.length == 0">
               <td :colspan="config.list.columnsPropriety.length + (haveActions ? 1 : 0)">
-                <div style="margin: 20px auto; text-align:center;">
-                  <div><img data-not-lazy height="120px" width="120px" :src="defaultEmptyIMG" style="margin-bottom:20px;" /></div>
+                <div style="margin: 20px auto; text-align:center; display:block;">
+                  <div style="display:block;"><img data-not-lazy height="120px" width="120px" :src="defaultEmptyIMG" style="margin-bottom:20px;" /></div>
                   <div>{{config.list.texts.empty}}</div>
                 </div>
               </td>
