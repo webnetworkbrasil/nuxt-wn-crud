@@ -28,8 +28,8 @@
           <slot v-if="typeModal == 'create'" name="footerCreate"></slot>
           <slot v-if="typeModal == 'edit'" name="footerEdit"></slot>
           <slot v-if="typeModal == 'view'" name="footerView"></slot>
-          <button v-if="config.create.buttons.close" class="close-modal wn-btn wn-btn-error" @click="closeModal">{{config.create.texts.close}}</button>
-          <button @click="save" v-if="config.create.buttons.save" class="wn-btn wn-btn-ok">{{config.create.texts.save}}</button>
+          <button v-if="typeModal != 'view' && config.create.buttons.close" class="close-modal wn-btn wn-btn-error" @click="closeModal">{{config.create.texts.close}}</button>
+          <button @click="save" v-if="typeModal != 'view' && config.create.buttons.save" class="wn-btn wn-btn-ok">{{config.create.texts.save}}</button>
         </section>
       </section>
       </div>
@@ -123,7 +123,7 @@ section#wn-crud section.wn-modal {
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 9;
+  z-index: 9999;
   padding: 20px 0;
   overflow-y: auto;
 }
@@ -492,7 +492,9 @@ export default {
           this.statusModal = true;
           await this.onLoad(id);
           break;
-        case "view": 
+        case "view":
+          this.statusModal = true;
+          await this.onLoad(id); 
           break;
       }
       this.copyForm = Object.assign({}, this.config.form);
