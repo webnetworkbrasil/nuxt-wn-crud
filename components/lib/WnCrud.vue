@@ -327,7 +327,6 @@ section#wn-crud section.wn-box section.wn-pagination div.wn-pagination-page {
 </style>
 
 <script>
-const axios = require('axios');
 export default {
   props: ["config"],
   data() {
@@ -413,7 +412,7 @@ export default {
   methods: {
     async onLoad(id) {
       this.loadingForm = true;
-      await axios
+      await this.$axios
       .get(`${this.$wnCrud.baseApi}${this.config.route}/${encodeURI(id)}`)
       .then((res) => {
         let formClear = Object.entries(this.config.form);
@@ -458,7 +457,7 @@ export default {
       }else {
         formData = Object.assign({}, this.config.form)
       }
-      await axios[this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? 'post' : 'put'](this.$wnCrud.baseApi+this.config.route+(this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? '' : '/'+this.config.form[this.config.formID]), formData)
+      await this.$axios[this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? 'post' : 'put'](this.$wnCrud.baseApi+this.config.route+(this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? '' : '/'+this.config.form[this.config.formID]), formData)
       .then((res) => {
         this.loadList(0);
         this.closeModal(null, true);
@@ -546,7 +545,7 @@ export default {
       }).then(async (result) => {
         this.loadingList = true;
         if (result.isConfirmed) {
-          await axios
+          await this.$axios
             .delete(`${this.$wnCrud.baseApi}${this.config.route}/${id}`)
             .then((res) => {
                 this.$swal({
@@ -635,7 +634,7 @@ export default {
         this.updatePagination();
         console.log(this.config.list)
 
-        await axios
+        await this.$axios
           .get(this.$wnCrud.baseApi + this.config.route, {
             params: {
               page: page,
