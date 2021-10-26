@@ -452,7 +452,7 @@ export default {
       }else {
         formData = Object.assign({}, this.config.form)
       }
-      await axios[this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? 'post' : 'patch'](this.$wnCrud.baseApi+this.config.route+(this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? '' : '/'+this.config.form[this.config.formID]), formData)
+      await axios[this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? 'post' : 'put'](this.$wnCrud.baseApi+this.config.route+(this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? '' : '/'+this.config.form[this.config.formID]), formData)
       .then((res) => {
         this.loadList(0);
         this.closeModal(null, true);
