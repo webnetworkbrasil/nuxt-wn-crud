@@ -33,7 +33,7 @@ wnCrud: {
 ```
 
 Change default texts (optional)
-```js
+```vue
 wnCrud: {
     ...
     texts: {
@@ -58,18 +58,18 @@ wnCrud: {
 
 Template
 ```vue
-    <template>
-    <WnCrud :config="wn">
-          <template v-slot:headerDefault>Gerenciar categorias</template> <!-- title modal -->
-          <template v-slot:default> <!-- content modal -->
-            <div>
-                <label>Exemple</label>
-                <input v-model="wn.form.exemple" type="text" />
-                <div>{{wn.formError.exemple}}</div>
-            </div>
-          </template> <!-- end content modal -->
-        </WnCrud>
-    </template>
+<template>
+<WnCrud :config="wn">
+      <template v-slot:headerDefault>Gerenciar categorias</template> <!-- title modal -->
+      <template v-slot:default> <!-- content modal -->
+        <div>
+            <label>Exemple</label>
+            <input v-model="wn.form.exemple" type="text" />
+            <div>{{wn.formError.exemple}}</div>
+        </div>
+      </template> <!-- end content modal -->
+    </WnCrud>
+</template>
 ```
 Script
 
