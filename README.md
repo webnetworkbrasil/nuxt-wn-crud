@@ -19,32 +19,32 @@ To use wnCrud you must have a standard Restful api with the verbs
     ],
     
     wnCrud: {
-        baseApi: "https://example.com", //our base api
-        colors: {
-          text: "#222",
-          buttons: {
-            ok: { text: "#fff", background: "green" },
-            error: { text: "#fff", background: "red" },
-            view: { text: "#fff", background: "blue" },
-            alert: { text: "#222", background: "orange" },
-          },
-        },
+      baseApi: "https://example.com", //our base api
+       colors: {
+         text: "#222",
+         buttons: {
+           ok: { text: "#fff", background: "green" },
+           error: { text: "#fff", background: "red" },
+           view: { text: "#fff", background: "blue" },
+           alert: { text: "#222", background: "orange" },
+         },
       },
+    },
       
-Optional
+Change default texts (optional)
       
       wnCrud: {
         ...
         texts: {
           "Are you sure about this?": "Você tem certeza disso?",
-          "Do you want to close without saving changes?": "Você deseja fechar sem salvar as alterações?",
+          "Do you want to close without saving changes?": "Deseja fechar sem salvar as alterações?",
           "Cancel": "Cancelar",
           "Yes, close": "Sim, fechar",
           'OK!': 'OK!',
-          'Record saved successfully!': 'Record saved successfully!',
+          'Record saved successfully!': 'Registro salvo com sucesso!',
           "Oops...": "Oops...",
-          'Error!': 'Error!',
-          'Contact the developer!': 'Contact the developer!',
+          'Error!': 'Erro!',
+          'Contact the developer!': 'Contate o desenvolvedor!',
           "You won't be able to revert this!": "Você não poderá reverter isso!",
           "Deleted!": "Deletado!",
           'The record has been successfully deleted.': 'O registro foi apagado com sucesso.',
