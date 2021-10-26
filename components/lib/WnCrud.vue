@@ -352,6 +352,7 @@ export default {
     };
   },
   created(){
+    this.config.convertToJson = typeof this.config.convertToJson != "undefined" ? this.config.convertToJson : false;
     this.config.formID = this.config.formID ? this.config.formID : "id";
     this.config.create.modal = this.config.create.modal ? this.config.create.modal : {
       size: "md",
