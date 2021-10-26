@@ -1,7 +1,7 @@
 <template>
   <section
     id="wn-crud"
-    :style="`--view-bg: ${$wnCrud.colors.buttons.view.background};--view-text: ${$wnCrud.colors.buttons.view.text};--alert-bg: ${$wnCrud.colors.buttons.alert.background};--alert-text: ${$wnCrud.colors.buttons.alert.text};--error-bg: ${$wnCrud.colors.buttons.error.background};--error-text: ${$wnCrud.colors.buttons.error.text};--ok-bg: ${$wnCrud.colors.buttons.ok.background};--ok-text: ${$wnCrud.colors.buttons.ok.text};--primary: ${$wnCrud.colors.primary};--secondary: ${$wnCrud.colors.secondary};--text: ${$wnCrud.colors.text};`">
+    :style="`--view-bg: ${$wnCrud.colors.buttons.view.background};--view-text: ${$wnCrud.colors.buttons.view.text};--alert-bg: ${$wnCrud.colors.buttons.alert.background};--alert-text: ${$wnCrud.colors.buttons.alert.text};--error-bg: ${$wnCrud.colors.buttons.error.background};--error-text: ${$wnCrud.colors.buttons.error.text};--ok-bg: ${$wnCrud.colors.buttons.ok.background};--ok-text: ${$wnCrud.colors.buttons.ok.text};--text: ${$wnCrud.colors.text};`">
     <section class="wn-modal" v-if="statusModal">
       <div class="container close-modal">
       <section v-click-outside="closeModal" :class="`wn-modal-box`+(config.create.modal.size ? ' wn-modal-'+config.create.modal.size : '')">
@@ -359,6 +359,7 @@ export default {
       texts: {},
       buttons: {}
     };
+    this.config.delete = typeof this.config.delete != "undefined" ? this.config.delete : { headerDetails: "Delete?" };
     this.config.create.modal = this.config.create.modal ? this.config.create.modal : {
       size: "md",
       askToClose: false,
@@ -534,7 +535,7 @@ export default {
     },
     async onDelete(id, obj) {
       await this.$swal({
-        title: this.config.delete.headerDetails ? this.config.delete.headerDetails[1](obj[this.config.delete.headerDetails[0]]) : 'Delete ?',
+        title: this.config.delete.headerDetails ? this.config.delete.headerDetails[1](obj[this.config.delete.headerDetails[0]]) : 'Delete?',
         text: this.textsModule("You won't be able to revert this!"),
         icon: 'warning',
         showCancelButton: true,
