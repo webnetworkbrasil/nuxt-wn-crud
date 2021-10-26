@@ -359,7 +359,7 @@ export default {
       texts: {},
       buttons: {}
     };
-    this.config.delete = typeof this.config.delete != "undefined" ? this.config.delete : { headerDetails: "Delete?" };
+    this.config.delete = typeof this.config.delete != "undefined" ? this.config.delete : { headerDetails: false };
     this.config.create.modal = this.config.create.modal ? this.config.create.modal : {
       size: "md",
       askToClose: false,
