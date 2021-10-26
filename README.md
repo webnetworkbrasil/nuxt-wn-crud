@@ -14,22 +14,22 @@ To use wnCrud you must have a standard Restful api with the verbs
 
 ## Nuxt config
 ```js
-    modules: [
-      'nuxt-wn-crud'
-    ],
-    
-    wnCrud: {
-      baseApi: "https://example.com", //our base api
-       colors: {
-         text: "#222",
-         buttons: {
-           ok: { text: "#fff", background: "green" },
-           error: { text: "#fff", background: "red" },
-           view: { text: "#fff", background: "blue" },
-           alert: { text: "#222", background: "orange" },
-         },
-      },
-    },
+modules: [
+  'nuxt-wn-crud'
+],
+
+wnCrud: {
+  baseApi: "https://example.com", //our base api
+   colors: {
+     text: "#222",
+     buttons: {
+       ok: { text: "#fff", background: "green" },
+       error: { text: "#fff", background: "red" },
+       view: { text: "#fff", background: "blue" },
+       alert: { text: "#222", background: "orange" },
+     },
+  },
+},
 ```
 
 Change default texts (optional)
