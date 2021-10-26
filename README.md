@@ -46,7 +46,7 @@ wnCrud: {
       "Oops...": "Oops...",
       "Error!": "Erro!",
       "Contact the developer!": "Contate o desenvolvedor!",
-      "You won"t be able to revert this!": "Você não poderá reverter isso!",
+      "You won't be able to revert this!": "Você não poderá reverter isso!",
       "Deleted!": "Deletado!",
       "The record has been successfully deleted.": "O registro foi apagado com sucesso.",
       "Yes, delete it!": "Sim, apague!"
