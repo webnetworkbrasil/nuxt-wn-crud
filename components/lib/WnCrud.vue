@@ -4,7 +4,7 @@
     :style="`--view-bg: ${$wnCrud.colors.buttons.view.background};--view-text: ${$wnCrud.colors.buttons.view.text};--alert-bg: ${$wnCrud.colors.buttons.alert.background};--alert-text: ${$wnCrud.colors.buttons.alert.text};--error-bg: ${$wnCrud.colors.buttons.error.background};--error-text: ${$wnCrud.colors.buttons.error.text};--ok-bg: ${$wnCrud.colors.buttons.ok.background};--ok-text: ${$wnCrud.colors.buttons.ok.text};--text: ${$wnCrud.colors.text};`">
     <section class="wn-modal" v-if="statusModal">
       <div class="container close-modal">
-      <section v-click-outside="closeModal" :class="`wn-modal-box`+(config.create.modal.size ? ' wn-modal-'+config.create.modal.size : '')">
+      <section v-click-outside="closeModal" :class="`wn-modal-box`+(config.create.modal.size ? ' wn-modal-'+config.create.modal.size : ' wn-modal-md')">
         <section class="wn-modal-header">
           <div class="wn-modal-title">
             <slot v-if="!this.$slots.headerCreate && !this.$slots.headerEdit && !this.$slots.headerView" name="headerDefault"></slot>
@@ -360,7 +360,7 @@ export default {
       buttons: {}
     };
     this.config.delete = typeof this.config.delete != "undefined" ? this.config.delete : { headerDetails: false };
-    this.config.create.modal = this.config.create.modal ? this.config.create.modal : {
+    this.config.create.modal = typeof this.config.create.modal != "undefined" ? this.config.create.modal : {
       size: "md",
       askToClose: false,
     };
