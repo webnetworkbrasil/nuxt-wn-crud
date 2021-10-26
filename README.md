@@ -41,15 +41,15 @@ wnCrud: {
       "Do you want to close without saving changes?": "Deseja fechar sem salvar as alterações?",
       "Cancel": "Cancelar",
       "Yes, close": "Sim, fechar",
-      'OK!': 'OK!',
-      'Record saved successfully!': 'Registro salvo com sucesso!',
+      "OK!": "OK!",
+      "Record saved successfully!": "Registro salvo com sucesso!",
       "Oops...": "Oops...",
-      'Error!': 'Erro!',
-      'Contact the developer!': 'Contate o desenvolvedor!',
-      "You won't be able to revert this!": "Você não poderá reverter isso!",
+      "Error!": "Erro!",
+      "Contact the developer!": "Contate o desenvolvedor!",
+      "You won"t be able to revert this!": "Você não poderá reverter isso!",
       "Deleted!": "Deletado!",
-      'The record has been successfully deleted.': 'O registro foi apagado com sucesso.',
-      'Yes, delete it!': 'Sim, apague!'
+      "The record has been successfully deleted.": "O registro foi apagado com sucesso.",
+      "Yes, delete it!": "Sim, apague!"
     }
 }
 ```
