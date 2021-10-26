@@ -69,7 +69,7 @@
             <tr v-for="(data, index) in dataList" :key="index">
               <td v-for="(colum, idc) in config.list.columnsPropriety" :key="idc" v-html="verifyContent(data, colum)"></td>
               <td v-if="haveActions" class="wn-right">
-                <div class="wn-right">
+                <div class="wn-list-buttons">
                   <button @click="onDelete(data[config.formID], data)" class="wn-btn wn-btn-error" v-if="config.list.buttons.delete" v-html="config.list.texts.delete"></button>
                   <button @click="openModal('view', data[config.formID])" class="wn-btn wn-btn-view" v-if="config.list.buttons.view" v-html="config.list.texts.view"></button>
                   <button @click="openModal('edit', data[config.formID])" class="wn-btn wn-btn-alert" v-if="config.list.buttons.edit" v-html="config.list.texts.edit"></button>
@@ -277,9 +277,9 @@ section#wn-crud section.wn-box section.wn-list table tr:nth-child(1) th {
 section#wn-crud section.wn-box section.wn-list table tr .wn-right {
   text-align: right;
 }
-section#wn-crud section.wn-box section.wn-list table tr td:nth-last-child(1) div {
+section#wn-crud section.wn-box section.wn-list table tr td:nth-last-child(1) div.wn-list-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   gap: 4px;
 }
 section#wn-crud section.wn-box section.wn-list table tr:nth-child(even) {
