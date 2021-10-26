@@ -33,7 +33,7 @@ wnCrud: {
 ```
 
 Change default texts (optional)
-```vue
+```js
 wnCrud: {
     ...
     texts: {
@@ -72,29 +72,30 @@ Template
 </template>
 ```
 Script
-
-    <script>
-    //object that will be used in requests and form fields, where default values ​​can be defined. 
-    let form = {
-      id: 0,
-      example: ""
-    };
-    export default {
-      data(){
-        return {
-          wn: {
-            title: "Manage exemples",
-            description: "Manage all registered exemples",
-            route: "/api/exemples", //restful pattern base path
-            form: Object.assign({}, form),
-            formClear: Object.assign({}, form),
-            formError: Object.assign({}, ...Array.from(Object.keys(form), (k) => ({[k]: ""}))),
-            list: {
-              header: ["#ID", "Exemple"], //configure columns names
-              columnsPropriety: ['id', 'exemple'], //configure columns keys values
-            }
-          }
+```vue
+<script>
+//object that will be used in requests and form fields, where default values ​​can be defined. 
+let form = {
+  id: 0,
+  example: ""
+};
+export default {
+  data(){
+    return {
+      wn: {
+        title: "Manage exemples",
+        description: "Manage all registered exemples",
+        route: "/api/exemples", //restful pattern base path
+        form: Object.assign({}, form),
+        formClear: Object.assign({}, form),
+        formError: Object.assign({}, ...Array.from(Object.keys(form), (k) => ({[k]: ""}))),
+        list: {
+          header: ["#ID", "Exemple"], //configure columns names
+          columnsPropriety: ['id', 'exemple'], //configure columns keys values
         }
       }
     }
-    </script>
+  }
+}
+</script>
+```
