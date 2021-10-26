@@ -8,6 +8,10 @@ To use wnCrud you must have a standard Restful api with the verbs
 - PUT '/:id' - update item
 - DELETE '/:id' - delete item
 
+## Install
+
+    npm install webnetworkbrasil/nuxt-wn-crud
+
 ## Nuxt config
 
     modules: [
