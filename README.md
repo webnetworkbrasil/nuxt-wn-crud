@@ -146,3 +146,72 @@ Footer modal (optional)
     </WnCrud>
 </template>
 ```
+
+## All configurations
+```vue
+<script>
+//object that will be used in requests and form fields, where default values ​​can be defined. 
+let form = {
+  id: 0,
+  icon: "",
+  name: "",
+  description: "",
+  categoryIds: new Array(),
+  image: null,
+};
+export default {
+  data(){
+    return {
+      wn: {
+        title: "Manage categories",
+        description: "Manage all registered categories",
+        route: "/api/categories", //restful pattern base path
+        formID: 'id', //optional default "id"
+        form: Object.assign({}, form),
+        formClear: Object.assign({}, form),
+        formError: Object.assign({}, ...Array.from(Object.keys(form), (k) => ({[k]: ""}))),
+        convertToJson: true, //optional default formData
+        create: {
+          modal: {
+            size: 'md', //lg, sm, md, full //optional default "md"
+            askToClose: true, //optional default false
+          },
+          texts: {
+            create: "Criar nova categoria", //optional default "Create new"
+            close: "Fechar", //optional default "Close"
+            save: "Salvar" //optional default "Save"
+          },
+          buttons: {
+            create: true, //optional default true
+            save: true, //optional default true
+            close: true, //optional default true
+          },
+        },
+        delete: {
+          headerDetails: ["title", (value) => `Deletar "${value}"?`], //optional default "Delete?"
+        },
+        list: {
+          header: ["#ID", "Icon", "Name", "Description"],
+          columnsPropriety: ['id', ['icon', (value) => `<img style="display:block;border-radius:5px;" height="40px" src="${value}" />`], ['name', (value) => `<b style="color:green">${value}</b>`], 'description'],
+          perPage: 10, //optional default 10
+          search: true, //optional default true
+          texts: {
+            search: "Faça uma busca na lista", //optional default "Search the list"
+            empty: "Não tem nada aqui", //optional default "There's nothing here"
+            actions: "Ações", //optional default "Actions"
+            delete: "Excluir", //optional default "Delete"
+            view: "Ver", //optional default "View"
+            edit: "Editar" //optional default "Edit"
+          },
+          buttons: {
+            delete: true, //optional default true
+            edit: true, //optional default true
+            view: true, //optional default false
+          },
+        }
+      }
+    }
+  }
+}
+</script>
+```
