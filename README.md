@@ -99,3 +99,17 @@ export default {
 }
 </script>
 ```
+## Available slots for modal configuration
+
+Title modal
+```vue
+<template>
+    <WnCrud :config="wn">
+      <template v-slot:headerDefault>Exemple title</template> <!-- title modal -->
+      <!-- OR -->
+      <template v-slot:headerCreate>Exemple title create</template> <!-- title modal create -->
+      <template v-slot:headerEdit>Exemple title update</template> <!-- title modal update -->
+      <template v-slot:headerView>Exemple title view</template> <!-- title modal view -->
+    </WnCrud>
+</template>
+```
