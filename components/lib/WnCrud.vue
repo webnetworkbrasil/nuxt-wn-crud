@@ -501,7 +501,7 @@ export default {
       this.statusModal = true;
     },
     textsModule(key){
-      if(this.$wnCrud.texts[key]){
+      if(this.$wnCrud.texts && this.$wnCrud.texts[key]){
         return this.$wnCrud.texts[key];
       }else{
         return key
