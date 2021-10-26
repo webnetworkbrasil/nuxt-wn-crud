@@ -113,3 +113,20 @@ Title modal
     </WnCrud>
 </template>
 ```
+Content modal
+```vue
+<template>
+    <WnCrud :config="wn">
+       ...
+      <div>Exemple content</div>
+      <h1>Exemple content</h1>
+      <input type="text" name="exemple" />
+      <!-- OR -->
+      <template v-slot:default>
+          <div>Exemple content</div>
+          <h1>Exemple content</h1>
+          <input type="text" name="exemple" />
+      </template>
+    </WnCrud>
+</template>
+```
