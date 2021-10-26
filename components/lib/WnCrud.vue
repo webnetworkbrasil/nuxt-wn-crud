@@ -69,7 +69,7 @@
             <tr v-for="(data, index) in dataList" :key="index">
               <td v-for="(colum, idc) in config.list.columnsPropriety" :key="idc" v-html="verifyContent(data, colum)"></td>
               <td v-if="haveActions" class="wn-right">
-                <div>
+                <div class="wn-right">
                   <button @click="onDelete(data[config.formID], data)" class="wn-btn wn-btn-error" v-if="config.list.buttons.delete" v-html="config.list.texts.delete"></button>
                   <button @click="openModal('view', data[config.formID])" class="wn-btn wn-btn-view" v-if="config.list.buttons.view" v-html="config.list.texts.view"></button>
                   <button @click="openModal('edit', data[config.formID])" class="wn-btn wn-btn-alert" v-if="config.list.buttons.edit" v-html="config.list.texts.edit"></button>
@@ -354,6 +354,11 @@ export default {
   created(){
     this.config.convertToJson = typeof this.config.convertToJson != "undefined" ? this.config.convertToJson : false;
     this.config.formID = this.config.formID ? this.config.formID : "id";
+    this.config.create = typeof this.config.create != "undefined" ? this.config.create : {
+      modal: {},
+      texts: {},
+      buttons: {}
+    };
     this.config.create.modal = this.config.create.modal ? this.config.create.modal : {
       size: "md",
       askToClose: false,
