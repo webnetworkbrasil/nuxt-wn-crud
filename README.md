@@ -101,7 +101,7 @@ export default {
 ```
 ## Available slots for modal configuration
 
-Title modal
+Header modal
 ```vue
 <template>
     <WnCrud :config="wn">
@@ -113,20 +113,36 @@ Title modal
     </WnCrud>
 </template>
 ```
-Content modal
+Body modal
 ```vue
 <template>
     <WnCrud :config="wn">
        ...
-      <div>Exemple content</div>
-      <h1>Exemple content</h1>
-      <input type="text" name="exemple" />
-      <!-- OR -->
       <template v-slot:default>
           <div>Exemple content</div>
-          <h1>Exemple content</h1>
-          <input type="text" name="exemple" />
       </template>
+      <!-- OR -->
+      <template v-slot:create>
+        <div>Exemple content create</div>
+      </template>
+      <template v-slot:edit>
+        <div>Exemple content edit</div>
+      </template>
+      <template v-slot:view>
+        <div>Exemple content view</div>
+      </template
+    </WnCrud>
+</template>
+```
+Footer modal (optional)
+```vue
+<template>
+    <WnCrud :config="wn">
+      <template v-slot:footerDefault>Custom footer</template>
+      <!-- OR -->
+      <template v-slot:footerCreate>Custom footer create</template>
+      <template v-slot:footerEdit>Custom footer edit</template>
+      <template v-slot:footerView>Custom footer view</template>
     </WnCrud>
 </template>
 ```
