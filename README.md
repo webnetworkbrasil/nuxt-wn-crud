@@ -57,7 +57,7 @@ wnCrud: {
 ## Basic usage
 
 Template
-
+```vue
     <template>
     <WnCrud :config="wn">
           <template v-slot:headerDefault>Gerenciar categorias</template> <!-- title modal -->
@@ -70,7 +70,7 @@ Template
           </template> <!-- end content modal -->
         </WnCrud>
     </template>
-
+```
 Script
 
     <script>
