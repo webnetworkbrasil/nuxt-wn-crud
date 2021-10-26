@@ -19,10 +19,8 @@ To use wnCrud you must have a standard Restful api with the verbs
     ],
     
     wnCrud: {
-        baseApi: "https://baseapiteste.com", //our base api
+        baseApi: "https://example.com", //our base api
         colors: {
-          primary: "#6D42A3",
-          secondary: "#3d4c57",
           text: "#222",
           buttons: {
             ok: { text: "#fff", background: "green" },
@@ -31,7 +29,12 @@ To use wnCrud you must have a standard Restful api with the verbs
             alert: { text: "#222", background: "orange" },
           },
         },
-        //optional change texts
+      },
+      
+Optional
+      
+      wnCrud: {
+        ...
         texts: {
           "Are you sure about this?": "Você tem certeza disso?",
           "Do you want to close without saving changes?": "Você deseja fechar sem salvar as alterações?",
@@ -47,7 +50,7 @@ To use wnCrud you must have a standard Restful api with the verbs
           'The record has been successfully deleted.': 'O registro foi apagado com sucesso.',
           'Yes, delete it!': 'Sim, apague!'
         }
-      },
+     }
 
 ## Basic usage
 
