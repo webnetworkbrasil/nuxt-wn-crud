@@ -431,22 +431,26 @@ export default {
       var formData = new FormData();
       var form = Object.assign({}, this.config.form);
       var keys = Object.keys(form);
-      for(var i = 0; i < keys.length; i++){
-        if(form[keys[i]] && form[keys[i]].constructor.name == 'File'){
-          formData.append(keys[i], form[keys[i]], form[keys[i]].name);
-        }else if(form[keys[i]] && form[keys[i]].constructor.name == 'FileList') {
-          var filesForm = form[keys[i]];
-          for(var x = 0; x < filesForm.length; x++){
-            formData.append(keys[i], filesForm[x], filesForm[x].name);
+      if(!this.config.convertToJson){
+        for(var i = 0; i < keys.length; i++){
+          if(form[keys[i]] && form[keys[i]].constructor.name == 'File'){
+            formData.append(keys[i], form[keys[i]], form[keys[i]].name);
+          }else if(form[keys[i]] && form[keys[i]].constructor.name == 'FileList') {
+            var filesForm = form[keys[i]];
+            for(var x = 0; x < filesForm.length; x++){
+              formData.append(keys[i], filesForm[x], filesForm[x].name);
+            }
+          }else if(form[keys[i]] && form[keys[i]].constructor.name == 'Array') {
+            var arrayForm = form[keys[i]];
+            for(var x = 0; x < arrayForm.length; x++){
+              formData.append(keys[i]+"[]", arrayForm[x]);
+            }
+          }else {
+            formData.append(keys[i], form[keys[i]]);
           }
-        }else if(form[keys[i]] && form[keys[i]].constructor.name == 'Array') {
-          var arrayForm = form[keys[i]];
-          for(var x = 0; x < arrayForm.length; x++){
-            formData.append(keys[i]+"[]", arrayForm[x]);
-          }
-        }else {
-          formData.append(keys[i], form[keys[i]]);
         }
+      }else {
+        formData = Object.assign({}, this.config.form)
       }
       await axios[this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? 'post' : 'patch'](this.$wnCrud.baseApi+this.config.route+(this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? '' : '/'+this.config.form[this.config.formID]), formData)
       .then((res) => {
