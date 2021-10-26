@@ -88,8 +88,8 @@ Script
             formClear: Object.assign({}, form),
             formError: Object.assign({}, ...Array.from(Object.keys(form), (k) => ({[k]: ""}))),
             list: {
-              header: ["#ID", "Exemple"],
-              columnsPropriety: ['id', 'exemple'],
+              header: ["#ID", "Exemple"], //configure columns names
+              columnsPropriety: ['id', 'exemple'], //configure columns keys values
             }
           }
         }
