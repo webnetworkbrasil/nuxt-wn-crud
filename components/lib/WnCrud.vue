@@ -1,7 +1,7 @@
 <template>
   <section
     id="wn-crud"
-    :style="`--view-bg: ${wnCrud.colors.buttons.view.background};--view-text: ${wnCrud.colors.buttons.view.text};--alert-bg: ${wnCrud.colors.buttons.alert.background};--alert-text: ${wnCrud.colors.buttons.alert.text};--error-bg: ${wnCrud.colors.buttons.error.background};--error-text: ${wnCrud.colors.buttons.error.text};--ok-bg: ${wnCrud.colors.buttons.ok.background};--ok-text: ${wnCrud.colors.buttons.ok.text};--primary: ${wnCrud.colors.primary};--secondary: ${wnCrud.colors.secondary};--text: ${wnCrud.colors.text};`">
+    :style="`--view-bg: ${$wnCrud.colors.buttons.view.background};--view-text: ${$wnCrud.colors.buttons.view.text};--alert-bg: ${$wnCrud.colors.buttons.alert.background};--alert-text: ${$wnCrud.colors.buttons.alert.text};--error-bg: ${$wnCrud.colors.buttons.error.background};--error-text: ${$wnCrud.colors.buttons.error.text};--ok-bg: ${$wnCrud.colors.buttons.ok.background};--ok-text: ${$wnCrud.colors.buttons.ok.text};--primary: ${$wnCrud.colors.primary};--secondary: ${$wnCrud.colors.secondary};--text: ${$wnCrud.colors.text};`">
     <section class="wn-modal" v-if="statusModal">
       <div class="container close-modal">
       <section v-click-outside="closeModal" :class="`wn-modal-box`+(config.create.modal.size ? ' wn-modal-'+config.create.modal.size : '')">
@@ -349,36 +349,6 @@ export default {
       haveActions: false,
       defaultLoadingIMG: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBzdHlsZT0ibWFyZ2luOiBhdXRvOyBiYWNrZ3JvdW5kOiBub25lOyBkaXNwbGF5OiBibG9jazsgc2hhcGUtcmVuZGVyaW5nOiBhdXRvOyIgd2lkdGg9IjU0cHgiIGhlaWdodD0iNTRweCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIj4KPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMzIiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlPSIjODVhMmI2IiBzdHJva2UtZGFzaGFycmF5PSI1MC4yNjU0ODI0NTc0MzY2OSA1MC4yNjU0ODI0NTc0MzY2OSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj4KICA8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InJvdGF0ZSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGtleVRpbWVzPSIwOzEiIHZhbHVlcz0iMCA1MCA1MDszNjAgNTAgNTAiPjwvYW5pbWF0ZVRyYW5zZm9ybT4KPC9jaXJjbGU+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjIzIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZT0iI2JiY2VkZCIgc3Ryb2tlLWRhc2hhcnJheT0iMzYuMTI4MzE1NTE2MjgyNjIgMzYuMTI4MzE1NTE2MjgyNjIiIHN0cm9rZS1kYXNob2Zmc2V0PSIzNi4xMjgzMTU1MTYyODI2MiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj4KICA8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InJvdGF0ZSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGtleVRpbWVzPSIwOzEiIHZhbHVlcz0iMCA1MCA1MDstMzYwIDUwIDUwIj48L2FuaW1hdGVUcmFuc2Zvcm0+CjwvY2lyY2xlPgo8IS0tIFtsZGlvXSBnZW5lcmF0ZWQgYnkgaHR0cHM6Ly9sb2FkaW5nLmlvLyAtLT48L3N2Zz4=",
       defaultEmptyIMG: "data:image/png;base64,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",
-      //
-      wnCrud: {
-        baseApi: "http://189.124.0.48",
-        colors: {
-          primary: "#6D42A3",
-          secondary: "#3d4c57",
-          text: "#222",
-          buttons: {
-            ok: { text: "#fff", background: "green" },
-            error: { text: "#fff", background: "red" },
-            view: { text: "#fff", background: "blue" },
-            alert: { text: "#222", background: "orange" },
-          },
-        },
-        texts: {
-          "Are you sure about this?": "Você tem certeza disso?",
-          "Do you want to close without saving changes?": "Você deseja fechar sem salvar as alterações?",
-          "Cancel": "Cancelar",
-          "Yes, close": "Sim, fechar",
-          'OK!': 'OK!',
-          'Record saved successfully!': 'Record saved successfully!',
-          "Oops...": "Oops...",
-          'Error!': 'Error!',
-          'Contact the developer!': 'Contact the developer!',
-          "You won't be able to revert this!": "Você não poderá reverter isso!",
-          "Deleted!": "Deletado!",
-          'The record has been successfully deleted.': 'O registro foi apagado com sucesso.',
-          'Yes, delete it!': 'Sim, apague!'
-        }
-      },
     };
   },
   created(){
@@ -437,7 +407,7 @@ export default {
     async onLoad(id) {
       this.loadingForm = true;
       await axios
-      .get(`${this.wnCrud.baseApi}${this.config.route}/${encodeURI(id)}`)
+      .get(`${this.$wnCrud.baseApi}${this.config.route}/${encodeURI(id)}`)
       .then((res) => {
         let formClear = Object.entries(this.config.form);
         for(let i = 0; i < formClear.length; i++){
@@ -477,7 +447,7 @@ export default {
           formData.append(keys[i], form[keys[i]]);
         }
       }
-      await axios[this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? 'post' : 'patch'](this.wnCrud.baseApi+this.config.route+(this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? '' : '/'+this.config.form[this.config.formID]), formData)
+      await axios[this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? 'post' : 'patch'](this.$wnCrud.baseApi+this.config.route+(this.config.form[this.config.formID] == this.config.formClear[this.config.formID] ? '' : '/'+this.config.form[this.config.formID]), formData)
       .then((res) => {
         this.loadList(0);
         this.closeModal(null, true);
@@ -520,8 +490,8 @@ export default {
       this.statusModal = true;
     },
     textsModule(key){
-      if(this.wnCrud.texts[key]){
-        return this.wnCrud.texts[key];
+      if(this.$wnCrud.texts[key]){
+        return this.$wnCrud.texts[key];
       }else{
         return key
       }
@@ -537,8 +507,8 @@ export default {
               text: this.textsModule("Do you want to close without saving changes?"),
               icon: 'warning',
               showCancelButton: true,
-              confirmButtonColor: this.wnCrud.colors.buttons.alert.background,
-              cancelButtonColor: this.wnCrud.colors.buttons.error.background,
+              confirmButtonColor: this.$wnCrud.colors.buttons.alert.background,
+              cancelButtonColor: this.$wnCrud.colors.buttons.error.background,
               cancelButtonText: this.textsModule("Cancel"),
               confirmButtonText: this.textsModule("Yes, close"),
             }).then(async (result) => {
@@ -558,15 +528,15 @@ export default {
         text: this.textsModule("You won't be able to revert this!"),
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: this.wnCrud.colors.buttons.alert.background,
-        cancelButtonColor: this.wnCrud.colors.buttons.error.background,
+        confirmButtonColor: this.$wnCrud.colors.buttons.alert.background,
+        cancelButtonColor: this.$wnCrud.colors.buttons.error.background,
         cancelButtonText: this.textsModule('Cancel'),
         confirmButtonText: this.textsModule('Yes, delete it!'),
       }).then(async (result) => {
         this.loadingList = true;
         if (result.isConfirmed) {
           await axios
-            .delete(`${this.wnCrud.baseApi}${this.config.route}/${id}`)
+            .delete(`${this.$wnCrud.baseApi}${this.config.route}/${id}`)
             .then((res) => {
                 this.$swal({
                   icon: 'success',
@@ -655,7 +625,7 @@ export default {
         console.log(this.config.list)
 
         await axios
-          .get(this.wnCrud.baseApi + this.config.route, {
+          .get(this.$wnCrud.baseApi + this.config.route, {
             params: {
               page: page,
               perPage: this.config.list.perPage,
