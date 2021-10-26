@@ -13,7 +13,7 @@ To use wnCrud you must have a standard Restful api with the verbs
     npm install webnetworkbrasil/nuxt-wn-crud
 
 ## Nuxt config
-
+```js
     modules: [
       'nuxt-wn-crud'
     ],
@@ -30,7 +30,8 @@ To use wnCrud you must have a standard Restful api with the verbs
          },
       },
     },
-      
+```
+
 Change default texts (optional)
       
       wnCrud: {
