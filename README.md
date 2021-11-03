@@ -186,6 +186,10 @@ export default {
             save: true, //optional default true
             close: true, //optional default true
           },
+          preSend: (form) => { //optional
+            //change form valuer or execute before send
+            return form;
+          }
         },
         delete: {
           headerDetails: ["title", (value) => `Deletar "${value}"?`], //optional default "Delete?"
