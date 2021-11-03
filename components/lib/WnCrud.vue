@@ -356,7 +356,8 @@ export default {
     this.config.create = typeof this.config.create != "undefined" ? this.config.create : {
       modal: {},
       texts: {},
-      buttons: {}
+      buttons: {},
+      preSend: (form) => {return form},
     };
     this.config.delete = typeof this.config.delete != "undefined" ? this.config.delete : { headerDetails: false };
     this.config.create.modal = typeof this.config.create.modal != "undefined" ? this.config.create.modal : {
@@ -434,7 +435,7 @@ export default {
     async save(){
       this.loadingForm = true;
       var formData = new FormData();
-      var form = Object.assign({}, this.config.form);
+      var form = Object.assign({}, this.config.create.preSend(this.config.form));
       var keys = Object.keys(form);
       if(!this.config.convertToJson){
         for(var i = 0; i < keys.length; i++){
