@@ -436,7 +436,7 @@ export default {
     async save(){
       this.loadingForm = true;
       var formData = new FormData();
-      console.log("BUG !!!")
+      console.log("BUG !!!", this.config.create)
       var form = Object.assign({}, this.config.create.preSend(this.config.form));
       console.log("BUG 2 !!!")
       var keys = Object.keys(form);
