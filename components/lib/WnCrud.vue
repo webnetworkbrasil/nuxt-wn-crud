@@ -359,7 +359,7 @@ export default {
       buttons: {},
       preSend: (form) => {return form},
     };
-    this.config.create.preSend = typeof this.config.create.preSend != "undefined" ? typeof this.config.create.preSend : (form) => {return form};
+    this.config.create.preSend = typeof this.config.create.preSend != "undefined" ? this.config.create.preSend : (form) => {return form};
     this.config.delete = typeof this.config.delete != "undefined" ? this.config.delete : { headerDetails: false };
     this.config.create.modal = typeof this.config.create.modal != "undefined" ? this.config.create.modal : {
       size: "md",
@@ -436,9 +436,7 @@ export default {
     async save(){
       this.loadingForm = true;
       var formData = new FormData();
-      console.log("BUG !!!", this.config.create)
       var form = Object.assign({}, this.config.create.preSend(this.config.form));
-      console.log("BUG 2 !!!")
       var keys = Object.keys(form);
       if(!this.config.convertToJson){
         for(var i = 0; i < keys.length; i++){
