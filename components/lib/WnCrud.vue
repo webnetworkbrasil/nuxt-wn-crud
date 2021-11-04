@@ -436,7 +436,9 @@ export default {
     async save(){
       this.loadingForm = true;
       var formData = new FormData();
+      console.log("BUG !!!")
       var form = Object.assign({}, this.config.create.preSend(this.config.form));
+      console.log("BUG 2 !!!")
       var keys = Object.keys(form);
       if(!this.config.convertToJson){
         for(var i = 0; i < keys.length; i++){
@@ -636,7 +638,6 @@ export default {
         else this.pageList = page;
 
         this.updatePagination();
-        console.log(this.config.list)
 
         await this.$axios
           .get(this.$wnCrud.baseApi + this.config.route, {
