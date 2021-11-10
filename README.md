@@ -189,6 +189,10 @@ export default {
           preSend: (form) => { //optional
             //change form valuer or execute before send
             return form;
+          },
+          preLoad: (form) => { //optional
+            //change form valuer or execute before load
+            return form;
           }
         },
         delete: {
