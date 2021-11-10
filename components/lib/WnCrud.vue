@@ -425,7 +425,7 @@ export default {
             this.config.form = res.data[formClear[i][0]];
           }
         }
-        this.config.form = this.config.create.preLoad(this.config.form)
+        this.config.form = Object.assign({}, this.config.create.preLoad(this.config.form));
       })
       .catch((err) => {
         this.statusModal = false;
