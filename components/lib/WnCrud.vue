@@ -420,13 +420,12 @@ export default {
       .get(`${this.$wnCrud.baseApi}${this.config.route}/${encodeURI(id)}`)
       .then((res) => {
         let formClear = Object.entries(this.config.form);
-        let formCopy = Object.entries({}, this.config.form);
         for(let i = 0; i < formClear.length; i++){
           if(res.data[formClear[i][0]]) {
-            formCopy[formClear[i][0]] = res.data[formClear[i][0]];
+            this.config.form = res.data[formClear[i][0]];
           }
         }
-        this.config.form = this.config.create.preLoad(formCopy)
+        this.config.form = this.config.create.preLoad(this.config.form)
       })
       .catch((err) => {
         this.statusModal = false;
