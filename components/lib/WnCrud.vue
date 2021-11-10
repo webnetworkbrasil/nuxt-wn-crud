@@ -358,8 +358,10 @@ export default {
       texts: {},
       buttons: {},
       preSend: (form) => {return form},
+      preLoad: (form) => {return form}
     };
     this.config.create.preSend = typeof this.config.create.preSend != "undefined" ? this.config.create.preSend : (form) => {return form};
+    this.config.create.preLoad = typeof this.config.create.preLoad != "undefined" ? this.config.create.preLoad : (form) => {return form};
     this.config.delete = typeof this.config.delete != "undefined" ? this.config.delete : { headerDetails: false };
     this.config.create.modal = typeof this.config.create.modal != "undefined" ? this.config.create.modal : {
       size: "md",
@@ -418,11 +420,13 @@ export default {
       .get(`${this.$wnCrud.baseApi}${this.config.route}/${encodeURI(id)}`)
       .then((res) => {
         let formClear = Object.entries(this.config.form);
+        let formCopy = Object.entries(this.config.form);
         for(let i = 0; i < formClear.length; i++){
           if(res.data[formClear[i][0]]) {
-            this.config.form[formClear[i][0]] = res.data[formClear[i][0]];
+            formCopy[formClear[i][0]] = res.data[formClear[i][0]];
           }
         }
+        this.config.form = this.config.create.preLoad(formCopy)
       })
       .catch((err) => {
         this.statusModal = false;
