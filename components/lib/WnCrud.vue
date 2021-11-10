@@ -427,7 +427,6 @@ export default {
           }
         }
         this.config.form = this.config.create.preLoad(formCopy)
-        this.copyForm = this.config.create.preLoad(formCopy);
       })
       .catch((err) => {
         this.statusModal = false;
@@ -495,8 +494,7 @@ export default {
     async openModal(type, id = 0){
       this.onClearValues();
       switch(type){
-        case "create":
-          this.copyForm = Object.assign({}, this.config.form); 
+        case "create": 
           break;
         case "edit": 
           this.statusModal = true;
@@ -507,6 +505,7 @@ export default {
           await this.onLoad(id); 
           break;
       }
+      this.copyForm = Object.assign({}, this.config.form);
       this.typeModal = type;
       this.statusModal = true;
     },
