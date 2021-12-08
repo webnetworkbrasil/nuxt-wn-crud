@@ -417,7 +417,7 @@ export default {
     if (this.config.list.autoReload != 0){
       clearInterval(this.controlAutoReload) 
       this.controlAutoReload = setInterval(() => {
-        this.loadList();
+        this.loadList(0, false);
       }, this.config.list.autoReload * 1000)
     }
   },
@@ -645,9 +645,11 @@ export default {
         }
       }
     },
-    async loadList(page = 1) {
+    async loadList(page = 1, loading = true) {
       if (page != null) {
-        this.loadingList = true;
+        if (loading) {
+          this.loadingList = true;
+        }
         if (page == 0) page = this.pageList;
         else this.pageList = page;
 
@@ -666,7 +668,9 @@ export default {
             this.dataList = res.data.data;
             this.totalPages = Math.ceil(this.count / this.config.list.perPage);
             this.updatePagination();
-            this.loadingList = false;
+            if (loading) {
+              this.loadingList = false;
+            }
             if(this.minHeightTable == false){
               var thisAT = this;
               setTimeout(function(){
@@ -676,7 +680,9 @@ export default {
           })
           .catch((err) => {
             console.error("WN-CRUD [ERROR]: ", err);
-            this.loadingList = false;
+            if (loading) {
+              this.loadingList = false;
+            }
           });
       }
     },
