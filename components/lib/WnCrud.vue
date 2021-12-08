@@ -331,6 +331,7 @@ export default {
   props: ["config"],
   data() {
     return {
+      controlAutoReload: null,
       copyForm: null,
       typeModal: "create",
       statusModal: false,
@@ -384,6 +385,7 @@ export default {
     this.config.create.buttons.create = typeof this.config.create.buttons.create != "undefined" ? this.config.create.buttons.create : true;
     this.config.create.buttons.save = typeof this.config.create.buttons.save  != "undefined" ? this.config.create.buttons.save : true;
     this.config.create.buttons.close = typeof this.config.create.buttons.close != "undefined" ? this.config.create.buttons.close : true;
+    this.config.list.autoReload = this.config.list.autoReload ? this.config.list.autoReload : 0;
     this.config.list.perPage = this.config.list.perPage ? this.config.list.perPage : 10;
     this.config.list.search = this.config.list.search ? this.config.list.search : 10;
     this.config.list.texts = this.config.list.texts? this.config.list.texts : {
@@ -412,6 +414,15 @@ export default {
   async mounted() {
     this.haveActions = (this.config.list.buttons.delete || this.config.list.buttons.edit || this.config.list.buttons.view) ? true : false;
     await this.loadList();
+    if (this.config.autoReload != false){
+      clearInterval(this.controlAutoReload) 
+      this.controlAutoReload = setInterval(() => {
+        console.log("Auto reload test!")
+      }, this.config.autoReload * 1000)
+    }
+  },
+  beforeDestroy() {
+    clearInterval(this.controlAutoReload)   
   },
   methods: {
     async onLoad(id) {
