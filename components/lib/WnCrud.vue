@@ -414,10 +414,10 @@ export default {
   async mounted() {
     this.haveActions = (this.config.list.buttons.delete || this.config.list.buttons.edit || this.config.list.buttons.view) ? true : false;
     await this.loadList();
-    if (this.config.autoReload != false){
+    if (this.config.autoReload != 0){
       clearInterval(this.controlAutoReload) 
       this.controlAutoReload = setInterval(() => {
-        console.log("Auto reload test!")
+        console.log("Auto reload test!", this.config.autoReload * 1000)
       }, this.config.autoReload * 1000)
     }
   },
