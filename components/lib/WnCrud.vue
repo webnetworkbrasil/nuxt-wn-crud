@@ -432,7 +432,7 @@ export default {
       .then((res) => {
         let formClear = Object.entries(this.config.form);
         for(let i = 0; i < formClear.length; i++){
-          if(res.data[formClear[i][0]]) {
+          if(typeof res.data[formClear[i][0]] == "boolean" || typeof res.data[formClear[i][0]] == "number" || res.data[formClear[i][0]]) {
             this.config.form[formClear[i][0]] = res.data[formClear[i][0]];
           }
         }
