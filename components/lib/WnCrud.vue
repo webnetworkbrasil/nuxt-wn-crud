@@ -609,7 +609,11 @@ export default {
     },
     verifyContent(data, key) {
       if(Array.isArray(key)){
-        return key[1](data[key[0]]);
+        if(key[0] != null){
+          return key[1](data[key[0]]);
+        }else {
+          return data;
+        }
       }
       return data[key];
     },
