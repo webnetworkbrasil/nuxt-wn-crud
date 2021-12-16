@@ -612,7 +612,7 @@ export default {
         if(key[0] != null){
           return key[1](data[key[0]]);
         }else {
-          return data;
+          return key[1](data);
         }
       }
       return data[key];
