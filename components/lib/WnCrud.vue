@@ -388,6 +388,7 @@ export default {
     this.config.list.autoReload = this.config.list.autoReload ? this.config.list.autoReload : 0;
     this.config.list.perPage = this.config.list.perPage ? this.config.list.perPage : 10;
     this.config.list.search = this.config.list.search ? this.config.list.search : 10;
+    this.config.list.loaded = this.config.list.loaded ? this.config.list.loaded : () => {}
     this.config.list.texts = this.config.list.texts? this.config.list.texts : {
       search: "Search the list",
       empty: "There's nothing here",
@@ -681,6 +682,7 @@ export default {
                  thisAT.minHeightTable = document.querySelector("#wn-crud .wn-list table").offsetHeight
               }, 200);
             }
+            this.config.list.loaded(res.data)
           })
           .catch((err) => {
             console.error("WN-CRUD [ERROR]: ", err);
