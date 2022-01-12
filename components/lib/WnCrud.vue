@@ -287,6 +287,7 @@ section#wn-crud section.wn-box section.wn-list table tr:nth-child(even) {
 }
 section#wn-crud section.wn-box section.wn-list table tr td {
   padding: 10px;
+  vertical-align: middle;
 }
 section#wn-crud section.wn-box section.wn-pagination {
   padding: 20px;
